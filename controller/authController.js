@@ -5,14 +5,14 @@ import jwt from 'jsonwebtoken';
 
 const getToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_TOKEN), {
-        expiresIn: '1d',
+        expiresIn: '6d',
     }
 }
 
 const createResponseToken = (user, statusCode, res) => {
     const token = getToken(user._id)
     const cookieOptions = {
-        expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+        expires: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000),
         httpOnly: true,
         secure: false,
         // sameSite: 'strict',
@@ -60,4 +60,24 @@ export const loginUser = asyncHandler(async (req, res) => {
         res.status(401)
         throw new Error('invalid user or user not found');
     }
+})
+
+export const findUserById = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id).select('-password');
+    if(user) {
+        res.status(200).json({
+            mssg: 'user found',
+            user,
+        })
+    } else {
+        res.status(401).json({
+            mssg: 'user not found',
+        })
+    }
+})
+
+export const logoutUser = asyncHandler(async (req, res) => {
+    res.status(200).json({
+        mssg: 'route to logout',
+    })
 })
