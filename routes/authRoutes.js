@@ -1,5 +1,5 @@
 import express from 'express';
-import User from '../models/User.js';
+import { registerUser } from '../controller/authController.js';
 
 const router = express.Router();
 
@@ -13,20 +13,7 @@ router.post('/login', (req, res) => {
   })
 });
 
-router.post('/register', async(req, res) => {
-  try {
-    await User.create(req.body);
-    res.json({
-      mssg: 'user registered successfully',
-      user: req.body,
-    })
-  } catch (error) {
-    res.status(422).json({
-        mssg: 'error registering user',
-        error
-    })
-  }
-});
+router.post('/register', registerUser);
 
 router.post('/logout', (req, res) => {
   res.json({
