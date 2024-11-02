@@ -1,5 +1,5 @@
 import express from 'express';
-import { registerUser } from '../controller/authController.js';
+import { loginUser, registerUser } from '../controller/authController.js';
 
 const router = express.Router();
 
@@ -7,11 +7,7 @@ router.get('/', (req, res) => {
   res.send('auth routes');
 });
 
-router.post('/login', (req, res) => {
-  res.json({
-    mssg: 'route to login',
-  })
-});
+router.post('/login', loginUser);
 
 router.post('/register', registerUser);
 
