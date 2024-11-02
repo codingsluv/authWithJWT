@@ -7,15 +7,21 @@ router.get('/', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-  res.send('login');
+  res.json({
+    mssg: 'route to login',
+  })
 });
 
 router.post('/register', (req, res) => {
-  res.send('register');
+  res.json({
+    mssg: 'route to register',
+  })
 });
 
 router.post('/logout', (req, res) => {
-  res.send('logout');
+  res.json({
+    mssg: 'route to logout',
+  })
 });
 
 router.get('/user', (req, res) => {
