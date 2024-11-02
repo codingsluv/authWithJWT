@@ -1,4 +1,5 @@
 import express from 'express';
+import User from '../models/User.js';
 
 const router = express.Router();
 
@@ -12,10 +13,19 @@ router.post('/login', (req, res) => {
   })
 });
 
-router.post('/register', (req, res) => {
-  res.json({
-    mssg: 'route to register',
-  })
+router.post('/register', async(req, res) => {
+  try {
+    await User.create(req.body);
+    res.json({
+      mssg: 'user registered successfully',
+      user: req.body,
+    })
+  } catch (error) {
+    res.status(422).json({
+        mssg: 'error registering user',
+        error
+    })
+  }
 });
 
 router.post('/logout', (req, res) => {
