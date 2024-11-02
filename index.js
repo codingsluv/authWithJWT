@@ -1,5 +1,7 @@
 import express from 'express';
 import authRoutes from './routes/authRoutes.js';
+import 'dotenv/config'
+import mongoose from 'mongoose';
 const app = express();
 
 // app.get('/', (req, res) => {
@@ -9,7 +11,12 @@ const app = express();
 
 app.use('/auth/api/v1', authRoutes);
 
-
+try {
+    await mongoose.connect(process.env.DATABASE)
+    console.log('successfully connect to database')
+} catch (error) {
+    console.log('error connecting to database');    
+}
 
 
 const port = process.env.PORT || 3000;
